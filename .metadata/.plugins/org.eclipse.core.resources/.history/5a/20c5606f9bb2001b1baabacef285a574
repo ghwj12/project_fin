@@ -1,5 +1,0 @@
-package com.sumbab.sumbab.model.login;
-
-public interface loginService {
-
-}

@@ -1,6 +1,14 @@
-INDEX VERSION 1.4+C:\Users\Win10\Desktop\theLast\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-2889652335.index
-2302351103.index
-1551283258.index
-273588517.index
-2705877015.index
+INDEX VERSION 1.4+C:\study\project_fin\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+1987705125.index
+3319172926.index
+3407752774.index
+3150619460.index
+507539896.index
+1685288425.index
+653026200.index
+2230945358.index
+2564302447.index
+2907408634.index
+2424904793.index
+2145288859.index
+3188355678.index
