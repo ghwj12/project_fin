@@ -1,0 +1,6 @@
+package com.sumbab.sumbab.model.login;
+
+@Service
+public class loginServiceImpl {
+
+}

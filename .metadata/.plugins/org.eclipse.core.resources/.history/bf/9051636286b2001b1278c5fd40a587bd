@@ -1,0 +1,22 @@
+package com.sumbab.sumbab.model.member;
+
+import javax.inject.Inject;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.sumbab.sumbab.model.login.MemberDao;
+
+
+
+@Repository
+public class MemberDaoMybatis implements MemberDao {
+
+	@Inject
+	private SqlSessionTemplate sqlSessionTemplate;
+
+	
+
+	
+
+}

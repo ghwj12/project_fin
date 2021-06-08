@@ -1,0 +1,5 @@
+package com.sumbab.sumbab.controller;
+
+public class LoginController {
+
+}

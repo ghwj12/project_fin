@@ -1,0 +1,7 @@
+package com.sumbab.sumbab.model.login;
+
+public class MemberVo {
+	private String id;
+	
+
+}

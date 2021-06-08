@@ -1,0 +1,33 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>테스트용페이지</title>
+
+<style>
+body {
+	background-color: lightblue;
+}
+
+
+
+<%@ include file="/WEB-INF/views/shareHead.jsp"%>
+</head>
+<body>
+
+
+
+	<div id="map_box">
+		<img src="/sumbab/resources/img/mapimg.png" />
+		 <a	href="<c:url value = "Gps/GPSlocation"/>" class="topcorner">현재내위치에서 근방 맛집보기</a>
+	</div>
+
+
+
+
+
+</body>
+</html>

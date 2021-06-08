@@ -1,0 +1,22 @@
+package com.sumbab.sumbab.model.memberRegAndLogin;
+
+import javax.servlet.http.HttpSession;
+
+public interface loginService {
+	
+	public boolean loginCheck(MemberVo vo, HttpSession session);
+	
+	public MemberVo viewMember(MemberVo vo);
+	
+	public void logout(HttpSession session);
+	//==========================================================
+	//마이페이지에서 활용될부분
+	
+	
+	//=================================
+	//회원가입부분
+	public void memberJoinProcess(MemberVo memberVO);
+
+	public int idCheck(String id);
+
+}

@@ -1,0 +1,54 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>테스트용페이지</title>
+<style>
+div {
+	position: relative;
+}
+
+#cm {
+	position: absolute;
+}
+
+.hc {
+	width: 200px;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+} /* 가로 중앙 정렬 */
+.vc {
+	height: 40px;
+	top: 0;
+	bottom: 0;
+	margin-top: auto;
+	margin-bottom: auto;
+} /* 세로 중앙 정렬 */
+}
+</style>
+<%@ include file="/WEB-INF/views/shareHead.jsp"%>
+</head>
+<body>
+
+
+
+	<div>
+		<p id="cm" class="hc vc">가로 중앙 정렬 + 세로 중앙 정렬
+	</div>
+	</div>
+
+
+
+	<div class="centered">
+		<a href="<c:url value = "Gps/GPSlocation"/>" class="topcorner">현재
+			내위치에서 근방 맛집보기</a>
+	</div>
+
+
+</body>
+</html>

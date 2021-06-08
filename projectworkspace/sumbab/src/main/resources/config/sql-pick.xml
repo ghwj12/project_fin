@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pickDao">
+
+        
+        <select id="bringPick" parameterType="String" resultType="Integer">
+        	select store_num from PICK where id=#{id}
+        </select>
+        
+        <insert id="addPick" parameterType="pick">
+        	insert into PICK (id, store_num) values(#{id}, #{storeNum})
+        </insert>
+        
+        <select id="storage" parameterType="String" resultType="store">
+        	select * from STORE where store_num in (select store_num from PICK where id=#{id})
+        </select>
+		
+		<select id="anonPickStores" parameterType="Integer" resultType="store">
+			select * from STORE where store_num=#{storeNum}
+		</select>
+		
+		<delete id="deletePick" parameterType="pick">
+			delete from PICK where id=#{id} and store_num=#{storeNum}
+		</delete>
+        
+     
+</mapper>

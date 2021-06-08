@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper">
+
+	<select id = "loginCheck" resultType = "String">
+		SELECT id FROM MEMBER
+		WHERE id = #{id} AND pwd = #{pwd}
+	
+	
+	</select>
+
+
+
+
+<!-- =========================================================== -->
+	<select id="idFind" parameterType="memberVo"
+		resultType="memberVo">
+		select ID from MEMBER
+		where EMAIL = #{email}
+	</select>
+
+	<select id="pwdFind" parameterType="memberVo"
+		resultType="memberVo">
+		select PWD from MEMBER
+		where ID = #{id}
+	</select>
+
+	<insert id="kaLoginInsert" parameterType="memberVo">
+		insert into MEMBER
+		(ID,
+		PWD, EMAIL, CLASSIFY, REGDATE)
+		values
+		(#{kname}, '0000', #{kemail}, '2',
+		sysdate)
+	</insert>
+
+	<select id="kaLoginSelect" parameterType="String"
+		resultType="memberVo">
+		select ID, EMAIL from Member
+		where ID = #{kname} and EMAIL =
+		#{kemail}
+	</select>
+
+	<select id="kaLoginSelect2" parameterType="String"
+		resultType="memberVo">
+		select ID,
+		PWD,
+		EMAIL,
+		CLASSIFY,
+		REGDATE
+		from MEMBER
+		where ID =
+		#{kname} and EMAIL = #{kemail}
+	</select>
+
+	<insert id="join" parameterType="memberVo">
+		insert into member
+		(id,pwd,email,classify,regdate)
+		values(
+		#{id},
+		#{pwd},
+		#{email},
+		#{classify},
+		SYSDATE
+		)
+
+	</insert>
+
+	<select id="idCheck" parameterType="String" resultType="int">
+		SELECT
+		count(*) FROM member WHERE id = #{id}
+	</select>
+
+	<update id="modify">
+		UPDATE member SET pwd = #{pwd} WHERE id = #{id}
+	</update>
+
+
+	<delete id="memberDelete" parameterType="memberVo">
+		DELETE FROM MEMBER
+		WHERE
+		id = #{id}
+		AND pwd = #{pwd}
+	</delete>
+
+</mapper>
+       
+   
+       

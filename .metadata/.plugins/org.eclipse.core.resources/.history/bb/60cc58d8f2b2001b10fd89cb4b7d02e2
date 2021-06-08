@@ -1,0 +1,62 @@
+package com.sumbab.sumbab.model.memberRegAndLogin;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class loginServiceImpl implements loginService {
+
+	@Autowired
+	MemberDao memberDao;
+	
+	@Override
+	public boolean loginCheck(MemberVo vo, HttpSession session) {
+		boolean result = memberDao.loginCheck(vo);
+		if(result) { //트루일경우에세션등록
+			MemberVo sessionVo = viewMember(vo);
+			//세션에 들어갈 용도입니다
+			
+			session.setAttribute("id", sessionVo.getId());
+			session.setAttribute("classify", sessionVo.getClassify());
+		}
+		return result;
+	}
+
+	@Override
+	public MemberVo viewMember(MemberVo vo) {
+		return memberDao.viewMember(vo);
+	}
+
+	@Override
+	public void logout(HttpSession session) {
+		// TODO Auto-generated method stub
+		session.invalidate();
+	}
+//====================================================================
+	@Override
+	public MemberVo readMemberInfo(MemberVo vo) {
+		
+		return memberDao.selectMemberInfo(vo);
+	}
+
+	
+	
+	
+//===============================================================	
+	@Override
+	public void memberJoinProcess(MemberVo memberVO) {
+		memberDao.memberJoinMethod(memberVO);
+	}
+
+	@Override
+	public int idCheck(String id) {
+		int result = memberDao.idCheck(id);
+
+		return result;
+	}
+
+	
+
+}

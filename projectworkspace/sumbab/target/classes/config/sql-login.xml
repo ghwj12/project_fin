@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="loginDao">
+
+	<select id="loginCheck" resultType="String">
+		SELECT id FROM MEMBER
+		WHERE id
+		= #{id} AND pwd = #{pwd}
+	</select>
+
+
+	<select id="viewMember" resultType="memberVo">
+		SELECT
+		id, email, regdate,
+		classify, pwd
+		FROM MEMBER
+		WHERE id = #{id}
+	</select>
+
+	<select id="memberInfolist" parameterType="String"
+		resultType="memberVo">
+		select
+		id,
+		email,
+		regdate
+		FROM Member
+		where id=#{id}
+		order by regdate desc
+	</select>
+
+	<select id="findMemberId" parameterType="String" resultType="String">
+		select ID from MEMBER where EMAIL = '${value}'
+	</select> 
+	
+	<select id="findMemberPwd" parameterType="String" resultType="String">
+		select PWD from MEMBER where ID = '${value}'
+	</select>
+	
+	<select id="getMemberById" parameterType="String" resultType="memberVo">
+		select * from MEMBER where ID=#{id}
+	</select>
+
+	<select id="ExMemberCheck" resultType="String">
+		SELECT email
+		FROM MEMBER
+		WHERE email
+		= #{email}
+	</select>
+
+	<!-- ======================================================================= -->
+	<insert id="join" parameterType="memberVo">
+		insert into member
+		(id,pwd,email,classify,regdate, kakao_id)
+		values(
+		#{id},
+		#{pwd},
+		#{email},
+		#{classify},
+		SYSDATE,
+		#{kakao_id}
+		)
+	</insert>
+
+	<select id="idCheck" parameterType="String" resultType="int">
+		SELECT
+		count(*) FROM member WHERE id = #{id}
+	</select>
+
+	<update id="modEmailPwd" parameterType="memberVo">
+   		update MEMBER set pwd = #{newPwd}, email = #{email} where id = #{id}
+	</update>
+	
+	<update id="modEmail" parameterType="memberVo">
+   		update MEMBER set email = #{email} where id = #{id}
+	</update>
+	
+	<update id="modPwd" parameterType="memberVo">
+   		update MEMBER set pwd = #{newPwd} where id = #{id}
+	</update>
+
+	<delete id="memberDelete" parameterType="memberVo">
+		DELETE FROM MEMBER
+		WHERE
+		id = #{id}
+		AND pwd = #{pwd}
+	</delete>
+	
+	<delete id="kakaoMemberDelete" parameterType="memberVo">
+		delete from MEMBER
+		where EMAIL = #{email}
+	</delete>
+
+	<select id = "passChk" resultType = "int" >
+		select COUNT(*) FROM MEMBER 
+		WHERE id = #{id}
+		AND pwd = #{pwd}
+	</select>
+</mapper>

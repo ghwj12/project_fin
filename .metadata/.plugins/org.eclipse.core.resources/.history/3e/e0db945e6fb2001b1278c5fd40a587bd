@@ -1,0 +1,119 @@
+package com.sumbab.sumbab.controller;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.sumbab.sumbab.model.pick.PickService;
+
+
+
+@Controller
+public class PickController {
+
+	@Autowired
+	private PickService pickService;
+	
+	//蹂닿��븿�뿉 �떞湲� 踰꾪듉 �겢由�
+	//諛섑솚媛믪씠 1:�씠誘� 蹂닿��븿�뿉 �빐�떦 媛�寃뚭� �떞寃� �엳�쓣 寃쎌슦, 0:蹂닿��븿�뿉 �빐�떦 媛�寃� 異붽�
+	@RequestMapping("store/StoreView/Pick/PickProcess/{storeNum}")
+	public String memberPick(@PathVariable int storeNum, HttpServletResponse response, HttpServletRequest request, Model model) {
+		String id="hello";			//merge�븯硫� session�뿉 �엳�뒗 id �궗�슜
+		int result=0;
+		if(!id.equals("")) {		//濡쒓렇�씤 �뻽�쓣 寃쎌슦
+			result = pickService.addPick(id, storeNum);
+			model.addAttribute("identified", true);
+		}else {						//鍮꾪쉶�썝�씪 寃쎌슦
+			List<String> list = new ArrayList<>(); 		//荑좏궎�뿉 �떞�쓣 媛�寃뚮쾲�샇�뱾 �꽔�뒗 媛앹껜
+			Cookie[] cookies = request.getCookies();	//�겢�씪�씠�뼵�듃�뿉 �엳�뒗 荑좏궎�뱾 媛��졇�삤湲�
+			String value = "";							
+			String[] picked = null;
+			if(cookies != null) {						//�겢�씪�씠�뼵�듃�뿉 荑좏궎媛� 議댁옱�븷 寃쎌슦
+				for(int i=0; i<cookies.length; i++) {
+					if(cookies[i].getName().equals("pick")) {	//蹂닿��븿�뿉 �빐�떦�븯�뒗 荑좏궎媛� 議댁옱�븷 寃쎌슦
+						value = cookies[i].getValue();	//荑좏궎�뿉 ���옣�릺�뼱 �엳�뒗 媛�寃뚮쾲�샇�뱾�쓣 臾몄옄�뿴濡� ���옣
+						picked = value.split("a");		//臾몄옄�뿴濡� ���옣�븳 媛�寃뚮쾲�샇�뱾�쓣 a濡� 援щ텇�븯�뿬 諛곗뿴�뿉 ���옣(,�굹 �쓣�뼱�벐湲곕뒗 荑좏궎�뿉 �븞�뱾�뼱媛�)
+						break;
+					}
+				}
+			}
+			if(value.equals("")) {						//蹂닿��븿�뿉 �빐�떦�븯�뒗 荑좏궎媛� 議댁옱�븯吏� �븡�쓣 寃쎌슦
+				Cookie cookie = new Cookie("pick", Integer.toString(storeNum));
+				cookie.setMaxAge(60*60*24);
+				cookie.setPath("/");
+				response.addCookie(cookie);
+				result = 0;
+			} else {
+				for(int i=0; i<picked.length; i++) {
+					if(picked[i].equals(Integer.toString(storeNum))) {	//蹂닿��븿�뿉 異붽��븷 媛�寃뚮쾲�샇媛� �씠誘� �엳�쓣 寃쎌슦
+						result = 1;
+						break;
+					}
+				}
+				if(result != 1) {							//蹂닿��븿�뿉 異붽��븷 媛�寃뚮쾲�샇媛� �뾾�쓣 寃쎌슦
+					for(int i=0; i<picked.length; i++)		
+						list.add(picked[i]);				//媛�寃� 踰덊샇瑜� 異붽��븯湲� �쐞�빐 �겕湲곌� �젙�빐�졇 �엳吏� �븡�� List ���엯�쑝濡� 湲곗〈�뿉 �엳�뜕 媛�寃뚮쾲�샇�뱾 �떞湲�
+					list.add(Integer.toString(storeNum));	//媛�寃� 踰덊샇 異붽�
+					String finalStorage = "";				
+					for(int i=0; i<list.size(); i++)
+						finalStorage += list.get(i) + "a";	//荑좏궎�뿉 List ���엯�쑝濡� ���옣�븷 �닔 �뾾湲� �븣臾몄뿉 �떎�떆 String�삎�쑝濡� 媛�寃뚮쾲�샇�뱾 �떞湲�
+					Cookie cookie = new Cookie("pick", finalStorage);
+					cookie.setMaxAge(60*60*24);
+					cookie.setPath("/");
+					response.addCookie(cookie);
+					result = 0;
+				}
+			}
+		}
+		model.addAttribute("result", result);
+		return "Pick/PickProcess";
+	}
+	
+	//鍮꾪쉶�썝�쑝濡� 蹂닿��븿 �궗�슜 �썑 濡쒓렇�씤 �뻽�쓣 �븣 蹂닿��븿 �뿰�룞
+	//merge�븯硫� 硫붿냼�뱶 �븞�뿉 �엳�뒗 �궡�슜�쓣 濡쒓렇�씤 而⑦듃濡ㅻ윭�뿉 �삷湲곌린
+	public String login(HttpServletRequest request) {
+		String id="hello";							//merge�븯硫� session�뿉 �엳�뒗 id �궗�슜
+		Cookie[] cookies = request.getCookies();	//�겢�씪�씠�뼵�듃�뿉 �엳�뒗 荑좏궎�뱾 媛��졇�삤湲�
+		String value = "";							
+		String[] picked = null;
+		if(cookies != null) {						
+			for(int i=0; i<cookies.length; i++) {
+				if(cookies[i].getName().equals("pick")) {	//�겢�씪�씠�뼵�듃�뿉 荑좏궎媛� 議댁옱�븷 寃쎌슦
+					value = cookies[i].getValue();	//荑좏궎�뿉 ���옣�릺�뼱 �엳�뒗 媛�寃뚮쾲�샇�뱾�쓣 臾몄옄�뿴濡� ���옣
+					picked = value.split("a");		//臾몄옄�뿴濡� ���옣�븳 媛�寃뚮쾲�샇�뱾�쓣 a濡� 援щ텇�븯�뿬 諛곗뿴�뿉 ���옣
+					break;
+				}
+			}
+		}
+		if(!value.equals("")) {						//蹂닿��븿�뿉 �빐�떦�븯�뒗 荑좏궎媛� 議댁옱�븷 寃쎌슦
+			for(int i=0; i<picked.length; i++) {
+				pickService.addPick(id, Integer.parseInt(picked[i]));
+			}
+		}
+		return "main";
+	}
+	
+	
+	
+	@RequestMapping(value = "/Pick/pickMain")
+	public String PickmainController() {
+		return "Pick/pickMain";
+		
+	}
+	
+	
+	
+	
+	
+	
+}
